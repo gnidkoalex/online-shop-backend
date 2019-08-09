@@ -29,5 +29,5 @@ app.use((error,req,res,next)=>{
 });
 
 const port=process.env.PORT || 3200;
-console.log("server is rining on port ",port);
+console.log("server is runing on port ",port);
 app.listen(port);
