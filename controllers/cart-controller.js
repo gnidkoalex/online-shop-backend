@@ -14,61 +14,85 @@ class CartController {
         })
     }
 
+    static findCartByUser(userId) {
+
+        return new Promise((resolve, reject) => {
+            cartModel.find({ customerId: userId }, (err, results) => {
+                if (err) { reject("cart not exsist") }
+                else if (results.length == 0) {
+                    resolve(results)
+                };
+
+                resolve(results)
+            })
+        })
+
+    }
+
+    static getCartItems(cartId) {
+        return new Promise((resolve, reject) => {
+            cartItemModel.find({ cartId: cartId }, (err, results) => {
+                if (err) { reject("cart not exsist") }
+                resolve(results)
+            }).populate("itemId")
+        })}
+
 
     static createCart(customerId) {
-        return new Promise((resolve, reject) => {
-            let cart = new cartModel({ customerId });
-            console.log(cart)
-            cart.save((err, result) => {
-                if (err) {
-                    console.log(err);
-                    reject(err)
-                } else {
-                    resolve(result);
-                }
-            });
-        })
-    }
-    static addCartItem(cartId, amount, itemId) {
-        return new Promise((resolve, reject) => {
-            productsModel.findById(itemId, (err, results) => {
-                if (err) {
-                    reject(err)
-                } if (results) {
-                    let totalPrice = results.price * amount
-                    let cartItem = new cartItemModel({ cartId, itemId, amount, totalPrice })
-                    cartItem.save((err, result) => {
+                return new Promise((resolve, reject) => {
+                    let cart = new cartModel({ customerId });
+                    // console.log(cart)
+                    cart.save((err, result) => {
                         if (err) {
+                            console.log(err);
                             reject(err)
                         } else {
-                            resolve("product added");
+                            resolve(result._id);
                         }
                     });
-                } else {
-                    reject("product not exsist")
-                }
-            })
-        })
-    }
+                })
+            }
+    static addCartItem(cartId, amount, itemId) {
+                return new Promise((resolve, reject) => {
+                    productsModel.findById(itemId, (err, results) => {
+                        if (err) {
+                            reject(err)
+                        } if (results) {
+                            let totalPrice = results.price * amount
+                            let cartItem = new cartItemModel({ cartId, itemId, amount, totalPrice })
+                            cartItem.save((err, result) => {
+                                if (err) {
+                                    reject(err)
+                                } else {
+                                    resolve("product added");
+                                }
+                            });
+                        } else {
+                            reject("product not exsist")
+                        }
+                    })
+                })
+            }
 
-    static delCartItem(cartId,productId){
-        return new Promise((resolve,reject)=>{
-            cartItemModel.deleteMany({cartId:cartId,itemId:productId},(err,result)=>{
-                if (err) {
-                    reject(err)
-                } if(result.deletedCount==0){
-                    reject("no such product in the cart")
-                }else {
-                    console.log(result)
-                    resolve("product deleted");
-                } 
-        
-
-            })
+    static delCartItem(cartId, productId){
+        console.log(productId)
+                return new Promise((resolve, reject) => {
+                    cartItemModel.deleteOne({cartId:cartId, itemId:productId}, (err, result) => {
+                        if (err) {
+                            reject(err)
+                        } if (result.deletedCount == 0) {
+                            console.log("delcount 0")
+                            resolve("no such product in the cart")
+                        } else {
+                            resolve("product deleted");
+                        }
 
 
-        })
-    }
+                    })
+
+
+                })
+            }
 
 
 }

@@ -4,16 +4,27 @@ const router = express.Router();
 const CartController = require("../controllers/cart-controller")
 
 
+// router.get("/:id", async (req, res, next) => {
+//     console.log("inside find by id ")
+//     console.log(req.params.id)
+//     try {
+//         const result = await CartController.getCartByid(req.params.id);
+//         res.json(result);
+//     } catch (ex) {
+//         res.status(404).send("eroor with get cart")
+//     }
+// })
 router.get("/:id", async (req, res, next) => {
-    console.log("inside find by id ")
-    console.log(req.params.id)
+    console.log("inside cartitems by id ")
     try {
-        const result = await CartController.getCartByid(req.params.id);
+        const result = await CartController.getCartItems(req.params.id);
+    
         res.json(result);
     } catch (ex) {
-        res.status(404).send("eroor with get cart")
+        res.status(404).send("eroor with get cart items ")
     }
 })
+
 
 router.post("/create", async (req, res, next) => {
     if (req.body.customerId) {
@@ -27,11 +38,24 @@ router.post("/create", async (req, res, next) => {
         res.send("params missing")
     }
 })
+router.post("/findCartByUser", async (req, res, next) => {
+    console.log("findCartByUser");
+    if (req.body.customerId) {
+        try {
+            const result = await CartController.findCartByUser(req.body.customerId);
+            res.json(result);
+        } catch (ex) {
+            res.status(404).send(ex)
+        }
+    } else {
+        res.send("params missing")
+    }
+})
 
 router.post("/addCartItem", async (req, res, next) => {
-    if (req.body.cartId && req.body.amount && req.body.productId) {
+    if (req.body.data.currProduct.cartId && req.body.data.currProduct.amount && req.body.data.currProduct.productId) {
         try {
-            const result = await CartController.addCartItem(req.body.cartId, req.body.amount, req.body.productId);
+            const result = await CartController.addCartItem(req.body.data.currProduct.cartId, req.body.data.currProduct.amount, req.body.data.currProduct.productId);
             res.json(result);
 
         } catch (ex) {
@@ -58,9 +82,10 @@ router.post("/addCartItem", async (req, res, next) => {
 // })
 
 router.post("/deleteCartItem", async (req, res, next) => {
-    if (req.body.cartId && req.body.productId) {
+    console.log("deleteCartItem")
+    if (req.body.data.data.cartId && req.body.data.data.productId) {
         try {
-            const results = await CartController.delCartItem(req.body.cartId,req.body.productId);
+            const results = await CartController.delCartItem(req.body.data.data.cartId,req.body.data.data.productId);
             res.json(results);
         } catch (ex) {
             res.status(409).send(ex);

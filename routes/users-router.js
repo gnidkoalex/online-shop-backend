@@ -31,12 +31,30 @@ router.post("/login", async (req, res, next) => {
     if (req.body.data.user.userName && req.body.data.user.password) {
         try {
             const result = await UsersController.logIn(req.body.data.user.userName,req.body.data.user.password); 
+            const userSession=await UsersController.generateSession(result._id)
+            result.session=userSession
+            console.log(result)
+            console.log("asdf")
             res.json(result); 
         } catch (ex) {
             res.status(404).send("user name or password doesnot match")
         }
     }else{
         res.send("params missing")
+    }
+})
+router.post("/verify", async (req, res, next) => {
+ 
+    if (req.body.data.session) {
+        
+        try {
+            const result = await UsersController.verify(req.body.data.session);
+            res.json(result); 
+        } catch (ex) {
+            res.status(404).send("session doesnt exist")
+        }
+    }else{
+        res.send("session doesnt exist")
     }
 })
 

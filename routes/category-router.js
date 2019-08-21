@@ -15,7 +15,6 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:name", async (req, res, next) => {
     console.log("inside category by name ")
-    console.log(req.params.name)
     try {
         const result = await CategoryController.getCategoryByName(req.params.name);
         res.json(result);

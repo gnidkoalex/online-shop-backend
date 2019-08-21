@@ -14,7 +14,6 @@ class CategoryController{
     }
 
     static getCategoryByName(name){
-        console.log(name,"inside controller")
         return new Promise((resolve,reject)=>{
             categoryModel.findOne({categoryName:name},(err,results)=>{
                 if (err) reject(err);
