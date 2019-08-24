@@ -16,10 +16,12 @@ class UsersController {
 
     static createUser(data) {
         console.log("inside create user controller")
-        let { name, lastname, userId, city, adress, username, password } = data;
+        console.log(data.data.user)
+        let { name, lastname, userId, city, adress, username, password } = data.data.user;
         let role = "customer";
         return new Promise((resolve, reject) => {
             let user = new usersModel({ role, name, lastname, userId, city, adress, username, password });
+            console.log(user)
             user.save((err, result) => {
                 if (err) {
                     console.log(err);
@@ -96,6 +98,28 @@ class UsersController {
         })
         
     }
+    static logout(session) {
+        console.log(session)
+        return new Promise((resolve, reject) => {
+            sessionModel.deleteMany({ _id: session}, (err, result) => {
+                if (err) {
+                    console.log("1")
+                    reject(err)
+                } if (result.deletedCount == 0) {
+                    console.log("2")
+                    resolve("eror with loging out")
+                } else {
+                    console.log("3")
+                    resolve("loged out sucssesfuly");
+                }
+
+
+            })
+
+
+        })
+    }
 }
+
 module.exports = UsersController;
 

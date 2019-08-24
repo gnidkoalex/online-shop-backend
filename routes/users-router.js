@@ -15,7 +15,8 @@ router.get("/", async (req, res, next) => {
 })
 
 router.post("/create", async (req, res, next) => {
-    if (req.body.name && req.body.lastname && req.body.userId && req.body.city && req.body.adress && req.body.username && req.body.password) {
+    console.log(req.body.data.user)
+    if (req.body.data.user.name && req.body.data.user.lastname && req.body.data.user.userId && req.body.data.user.city && req.body.data.user.adress && req.body.data.user.username && req.body.data.user.password) {
         try {
             const result = await UsersController.createUser(req.body);
             res.json(result);
@@ -57,6 +58,21 @@ router.post("/verify", async (req, res, next) => {
         res.send("session doesnt exist")
     }
 })
+router.post("/logout", async (req, res, next) => {
+ console.log("inside log out ")
+    if (req.body.data.session) {
+        
+        try {
+            const result = await UsersController.logout(req.body.data.session);
+            res.json(result); 
+        } catch (ex) {
+            res.status(404).send("erorr with logingout")
+        }
+    }else{
+        res.send("erorr with logingout")
+    }
+})
+
 
 
 
