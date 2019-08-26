@@ -94,6 +94,18 @@ router.post("/deleteCartItem", async (req, res, next) => {
     }
 
 });
+router.post("/deleteAllCartItems", async (req, res, next) => {
+    if (req.body.data.cartId) {
+        try {
+            const results = await CartController.delAllCartItems(req.body.data.cartId);
+            res.json(results);
+        } catch (ex) {
+            res.status(409).send(ex);
+        }
+
+    }
+
+});
 
 
 

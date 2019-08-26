@@ -94,6 +94,24 @@ class CartController {
 
         })
     }
+    static delAllCartItems(cartId) {
+        console.log("yap")
+        console.log(cartId)
+        return new Promise((resolve, reject) => {
+            cartItemModel.deleteMany({ cartId: cartId}, (err,result) => {
+                if (err) {
+                    reject(err)
+                
+                } else {
+                    resolve("all products been deleted");
+                }
+
+
+            })
+
+
+        })
+    }
    
 
 
