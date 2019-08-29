@@ -47,6 +47,7 @@ class UsersController {
                     user._id = results[0]._id;
                     user.name = results[0].name;
                     user.userId = results[0].userId;
+                    user.role=results[0].role;
                     resolve(user)
                 }
 
@@ -93,6 +94,7 @@ class UsersController {
                 user._id = results[0].userId._id;
                 user.name = results[0].userId.name;
                 user.userId = results[0].userId.userId;
+                user.role=results[0].userId.role;
                 resolve(user)
             }).populate("userId")
         })

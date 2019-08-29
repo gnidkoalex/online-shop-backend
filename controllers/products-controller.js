@@ -20,6 +20,18 @@ class ProductsController{
             })
         })
     }
+
+    static getProductToEdit(id){
+        return new Promise((resolve,reject)=>{
+            productsModel.findById(id,(err,results)=>{
+                if(err) reject(err);
+                resolve(results)
+            })
+        })
+    }
+
+
+    
 }
 module.exports=ProductsController;
 
