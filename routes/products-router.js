@@ -92,6 +92,26 @@ router.post("/update", async (req, res, next) => {
   //        res.send("erorr with logingout")
   //    }
 })
+router.post("/add", async (req, res, next) => {
+  console.log("indide add")
+  console.log(req.body)
+    try{
+      let uploadedFile = req.files.file;
+      let result= await ProductsController.addProduct(uploadedFile.name, req.body);
+      uploadedFile.mv(`pics/${uploadedFile.name}`, err => {
+        if (err) {
+          res.json(err);
+        } else {
+          res.json( "successfuly saved");
+        }
+      });
+
+    }catch(ex){
+      res.json({ ex });
+    }
+
+  
+})
 
 
 

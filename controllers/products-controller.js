@@ -51,7 +51,32 @@ class ProductsController{
             })
         })
     }
-
+    static addProduct(pic,data){
+        return new Promise((resolve,reject)=>{
+            console.log("im data222")
+            console.log(data)
+            let productName =data.productName
+            let categoryId = data.categoryId
+            let price = data.price
+            let image= `http://localhost:2200/pics/${pic}`
+            let product= new productsModel({productName,categoryId,price,image});
+            console.log(product)
+            product.save((err, result) => {
+                if (err) {
+                    console.log(err);
+                    reject(err)
+                } else {
+                    resolve("product added");
+                }
+            })
+           
+        })
+        
+    }
+  
+        
+        
+    
     
 
 
