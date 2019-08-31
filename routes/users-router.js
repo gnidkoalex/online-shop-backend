@@ -15,7 +15,6 @@ router.get("/", async (req, res, next) => {
 })
 
 router.post("/create", async (req, res, next) => {
-    console.log(req.body.data.user)
     if (req.body.data.user.name && req.body.data.user.lastname && req.body.data.user.userId && req.body.data.user.city && req.body.data.user.adress && req.body.data.user.username && req.body.data.user.password) {
         try {
             const result = await UsersController.createUser(req.body);
@@ -34,8 +33,6 @@ router.post("/login", async (req, res, next) => {
             const result = await UsersController.logIn(req.body.data.user.userName,req.body.data.user.password); 
             const userSession=await UsersController.generateSession(result._id)
             result.session=userSession
-            console.log(result)
-            console.log("asdf")
             res.json(result); 
         } catch (ex) {
             res.status(404).send("user name or password doesnot match")
@@ -59,7 +56,6 @@ router.post("/verify", async (req, res, next) => {
     }
 })
 router.post("/logout", async (req, res, next) => {
- console.log("inside log out ")
     if (req.body.data.session) {
         
         try {

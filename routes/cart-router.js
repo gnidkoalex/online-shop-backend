@@ -4,18 +4,7 @@ const router = express.Router();
 const CartController = require("../controllers/cart-controller")
 
 
-// router.get("/:id", async (req, res, next) => {
-//     console.log("inside find by id ")
-//     console.log(req.params.id)
-//     try {
-//         const result = await CartController.getCartByid(req.params.id);
-//         res.json(result);
-//     } catch (ex) {
-//         res.status(404).send("eroor with get cart")
-//     }
-// })
 router.get("/:id", async (req, res, next) => {
-    console.log("inside cartitems by id ")
     try {
         const result = await CartController.getCartItems(req.params.id);
     
@@ -39,7 +28,6 @@ router.post("/create", async (req, res, next) => {
     }
 })
 router.post("/findCartByUser", async (req, res, next) => {
-    console.log("findCartByUser");
     if (req.body.customerId) {
         try {
             const result = await CartController.findCartByUser(req.body.customerId);
@@ -66,23 +54,9 @@ router.post("/addCartItem", async (req, res, next) => {
         res.send("params missing")
     }
 })
-// router.post("/addCartItem", async (req, res, next) => {
-//     if (req.body.cartId && req.body.amount && req.body.productId) {
-//         try {
-//             const result = await CartController.addCartItem(req.body.cartId, req.body.amount, req.body.productId);
-//             res.json(result);
-
-//         } catch (ex) {
-//             res.status(404).send("error with adding item to cart")
-//         }
-
-//     } else {
-//         res.send("params missing")
-//     }
-// })
 
 router.post("/deleteCartItem", async (req, res, next) => {
-    console.log("deleteCartItem")
+
     if (req.body.data.data.cartId && req.body.data.data.productId) {
         try {
             const results = await CartController.delCartItem(req.body.data.data.cartId,req.body.data.data.productId);
@@ -108,7 +82,6 @@ router.post("/deleteAllCartItems", async (req, res, next) => {
 });
 
 router.post("/order", async (req, res, next) => {
-    // console.log(req.body)
     if (req.body) {
         try {
             const results = await CartController.order(req.body);

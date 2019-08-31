@@ -15,17 +15,6 @@ const CategoryRouter= require("./routes/category-router")
 const mongoose= require("mongoose");
 mongoose.connect("mongodb://localhost:27017/onlineShop",{useNewUrlParser:true});
 
-
-// var customCors = function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-//     res.header("Access-Control-Allow-Headers", "Content-Type");
-//     res.header("Access-Control-Allow-Credentials", true);
-  
-//     next();
-//   };
-//   app.use(customCors);
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

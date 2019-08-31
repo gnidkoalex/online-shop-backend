@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-// mongoose.set('debug', true)
-//model declaration
+
 
 
 

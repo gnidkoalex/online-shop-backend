@@ -23,23 +23,6 @@ class CategoryController{
         })
     }
     
-
-    // static createCart (customerId){
-    //     return new Promise((resolve,reject)=>{
-    //         let cart = new cartModel({customerId});
-    //         console.log(cart)
-    //         cart.save((err, result) => {
-    //             if (err) {
-    //                 console.log(err);
-    //                 reject(err)
-    //             } else {
-    //                 resolve("cart added");
-    //             }
-    //         });
-    //     })
-
-
-    // }
 }
 module.exports=CategoryController;
 

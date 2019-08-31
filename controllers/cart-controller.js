@@ -43,10 +43,8 @@ class CartController {
     static createCart(customerId) {
         return new Promise((resolve, reject) => {
             let cart = new cartModel({ customerId });
-            // console.log(cart)
             cart.save((err, result) => {
                 if (err) {
-                    console.log(err);
                     reject(err)
                 } else {
                     resolve(result._id);
@@ -77,13 +75,11 @@ class CartController {
     }
 
     static delCartItem(cartId, productId) {
-        console.log(productId)
         return new Promise((resolve, reject) => {
             cartItemModel.deleteOne({ cartId: cartId, itemId: productId }, (err, result) => {
                 if (err) {
                     reject(err)
                 } if (result.deletedCount == 0) {
-                    console.log("delcount 0")
                     resolve("no such product in the cart")
                 } else {
                     resolve("product deleted");
@@ -96,8 +92,6 @@ class CartController {
         })
     }
     static delAllCartItems(cartId) {
-        console.log("yap")
-        console.log(cartId)
         return new Promise((resolve, reject) => {
             cartItemModel.deleteMany({ cartId: cartId}, (err,result) => {
                 if (err) {
@@ -115,7 +109,6 @@ class CartController {
     }
     static order(data) {
         return new Promise((resolve, reject) => {
-            console.log("inside order")
             let userId=data.userId
             let cartId=data.cartId
             let price=data.price
@@ -124,25 +117,9 @@ class CartController {
             let adress=data.adress
             let date=data.date
             let creditCard =data.creditCard
-            
-            
-            
-            // console.log(data.userId)
-            // console.log(data.cartId)
-            // console.log(data.price)
-            // console.log(data.cartItems)
-            // console.log(data.city)
-            // console.log(data.date)
-            // console.log(data.creditCard)
-            // console.log(data.userId)
-            // console.log(data.userId)
-            // console.log(data.userId)
             let order = new orderModel({ userId,cartId,price,cartItems,city,adress,date,creditCard});
-            // console.log(order)
-            // console.log(cart)
             order.save((err, result) => {
                 if (err) {
-                    console.log(err);
                     reject(err)
                 } else {
                     resolve(result._id);

@@ -15,9 +15,6 @@ class UsersController {
     }
 
     static createUser(data) {
-        console.log("inside create user controller")
-        console.log(data.data.user)
-
         let { name, lastname, userId, city, adress, username, password } = data.data.user;
         let role = "customer";
         let userExsist = usersModel.find({ userId: userId })
@@ -28,10 +25,8 @@ class UsersController {
                 } else if (results.length==0) {
                     return new Promise((resolve, reject) => {
                         let user = new usersModel({ role, name, lastname, userId, city, adress, username, password });
-                        console.log(user)
                         user.save((err, result) => {
                             if (err) {
-                                console.log(err);
                                 reject(err)
                             } else {
                                 reject("user added");
@@ -45,21 +40,6 @@ class UsersController {
 
             })
         })
-
-
-        // return new Promise((resolve, reject) => {
-        //     let user = new usersModel({ role, name, lastname, userId, city, adress, username, password });
-        //     console.log(user)
-        //     user.save((err, result) => {
-        //         if (err) {
-        //             console.log(err);
-        //             reject(err)
-        //         } else {
-        //             resolve("user added");
-        //         }
-        //     });
-        // })
-
 
     }
     static logIn(userName, password) {
@@ -97,8 +77,6 @@ class UsersController {
     }
 
     static generateSession(uid) {
-        console.log("gen")
-        console.log(uid)
         let session = UsersController.uuidv4();
         return new Promise((resolve, reject) => {
             let sessionInstance = new sessionModel({ _id: session, userId: uid });
@@ -112,12 +90,9 @@ class UsersController {
         });
     }
     static verify(session) {
-        console.log("lala")
-        console.log(session)
         return new Promise((resolve, reject) => {
             sessionModel.find({ _id: session }, (err, results) => {
                 if (err) { reject("session not exsist") }
-                console.log(results[0].userId)
                 let user = {}
                 user._id = results[0].userId._id;
                 user.name = results[0].userId.name;
@@ -129,17 +104,13 @@ class UsersController {
 
     }
     static logout(session) {
-        console.log(session)
         return new Promise((resolve, reject) => {
             sessionModel.deleteMany({ _id: session }, (err, result) => {
                 if (err) {
-                    console.log("1")
                     reject(err)
                 } if (result.deletedCount == 0) {
-                    console.log("2")
                     resolve("eror with loging out")
                 } else {
-                    console.log("3")
                     resolve("loged out sucssesfuly");
                 }
 
