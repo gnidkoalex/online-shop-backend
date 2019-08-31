@@ -107,6 +107,20 @@ router.post("/deleteAllCartItems", async (req, res, next) => {
 
 });
 
+router.post("/order", async (req, res, next) => {
+    // console.log(req.body)
+    if (req.body) {
+        try {
+            const results = await CartController.order(req.body);
+            res.json(results);
+        } catch (ex) {
+            res.status(409).send(ex);
+        }
+
+    }
+
+});
+
 
 
 

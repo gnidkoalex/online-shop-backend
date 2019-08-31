@@ -1,6 +1,7 @@
 const cartModel = require("../models/cart-model");
 const cartItemModel = require("../models/cartItem-model")
 const productsModel = require("../models/products-model")
+const orderModel= require("../models/order-model")
 
 
 class CartController {
@@ -110,6 +111,43 @@ class CartController {
             })
 
 
+        })
+    }
+    static order(data) {
+        return new Promise((resolve, reject) => {
+            console.log("inside order")
+            let userId=data.userId
+            let cartId=data.cartId
+            let price=data.price
+            let cartItems=data.cartItems
+            let city=data.city
+            let adress=data.adress
+            let date=data.date
+            let creditCard =data.creditCard
+            
+            
+            
+            // console.log(data.userId)
+            // console.log(data.cartId)
+            // console.log(data.price)
+            // console.log(data.cartItems)
+            // console.log(data.city)
+            // console.log(data.date)
+            // console.log(data.creditCard)
+            // console.log(data.userId)
+            // console.log(data.userId)
+            // console.log(data.userId)
+            let order = new orderModel({ userId,cartId,price,cartItems,city,adress,date,creditCard});
+            // console.log(order)
+            // console.log(cart)
+            order.save((err, result) => {
+                if (err) {
+                    console.log(err);
+                    reject(err)
+                } else {
+                    resolve(result._id);
+                }
+            });
         })
     }
    
