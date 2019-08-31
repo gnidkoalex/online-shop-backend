@@ -21,7 +21,7 @@ router.post("/create", async (req, res, next) => {
             const result = await UsersController.createUser(req.body);
             res.json(result);
         } catch (ex) {
-            res.status(404).send("eroor with creating user")
+            res.json(ex)
         }
     }else{
         res.send("params missing")

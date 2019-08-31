@@ -17,20 +17,48 @@ class UsersController {
     static createUser(data) {
         console.log("inside create user controller")
         console.log(data.data.user)
+
         let { name, lastname, userId, city, adress, username, password } = data.data.user;
         let role = "customer";
+        let userExsist = usersModel.find({ userId: userId })
         return new Promise((resolve, reject) => {
-            let user = new usersModel({ role, name, lastname, userId, city, adress, username, password });
-            console.log(user)
-            user.save((err, result) => {
+            usersModel.find({ userId: userId }, (err, results) => {
                 if (err) {
-                    console.log(err);
                     reject(err)
+                } else if (results.length==0) {
+                    return new Promise((resolve, reject) => {
+                        let user = new usersModel({ role, name, lastname, userId, city, adress, username, password });
+                        console.log(user)
+                        user.save((err, result) => {
+                            if (err) {
+                                console.log(err);
+                                reject(err)
+                            } else {
+                                reject("user added");
+                            }
+                        });
+                    })
+
                 } else {
-                    resolve("user added");
+                    reject("user id exist")
                 }
-            });
+
+            })
         })
+
+
+        // return new Promise((resolve, reject) => {
+        //     let user = new usersModel({ role, name, lastname, userId, city, adress, username, password });
+        //     console.log(user)
+        //     user.save((err, result) => {
+        //         if (err) {
+        //             console.log(err);
+        //             reject(err)
+        //         } else {
+        //             resolve("user added");
+        //         }
+        //     });
+        // })
 
 
     }
@@ -47,7 +75,7 @@ class UsersController {
                     user._id = results[0]._id;
                     user.name = results[0].name;
                     user.userId = results[0].userId;
-                    user.role=results[0].role;
+                    user.role = results[0].role;
                     resolve(user)
                 }
 
@@ -83,27 +111,27 @@ class UsersController {
             });
         });
     }
-    static verify(session){
+    static verify(session) {
         console.log("lala")
         console.log(session)
         return new Promise((resolve, reject) => {
-            sessionModel.find({_id:session }, (err, results) => {
+            sessionModel.find({ _id: session }, (err, results) => {
                 if (err) { reject("session not exsist") }
                 console.log(results[0].userId)
                 let user = {}
                 user._id = results[0].userId._id;
                 user.name = results[0].userId.name;
                 user.userId = results[0].userId.userId;
-                user.role=results[0].userId.role;
+                user.role = results[0].userId.role;
                 resolve(user)
             }).populate("userId")
         })
-        
+
     }
     static logout(session) {
         console.log(session)
         return new Promise((resolve, reject) => {
-            sessionModel.deleteMany({ _id: session}, (err, result) => {
+            sessionModel.deleteMany({ _id: session }, (err, result) => {
                 if (err) {
                     console.log("1")
                     reject(err)
